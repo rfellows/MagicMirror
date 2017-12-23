@@ -1,0 +1,45 @@
+.table {
+  font-size: 18px;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  line-height: 32px;
+}
+.cell {
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 6px;
+}
+.grade {
+  width: 12px;
+  font-weight: 800;
+}
+.period {
+  width: 8px;
+}
+.pct {
+  width: 40px;
+  font-weight: 800;
+  text-align: right;
+}
+.teacher {
+  width: 90px;
+}
+.subject {
+  width: 170px;
+}
+.A {
+  color: green;
+}
+
+.B,
+.C {
+  color: yellow;
+}
+.D,
+.F {
+  color: red;
+}
