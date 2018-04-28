@@ -42,41 +42,46 @@ module.exports = NodeHelper.create({
       if (error) {
         console.error('Error logging in to ' + loginUrl)
       } else {
-        // console.log('Log in success!')
+        console.info('Log in attempt result...', response.body)
+        const result = JSON.parse(response.body)
+        if (!result.success) {
+          console.error('Error logging in\n', result)
+          this.sendSocketNotification('ERROR', result.error)
+        } else {
+          request.get(site.getModulesUrl(), (error, response, body) => {
+            if (_.isNil(error)) {
+              const $ = cheerio.load(body)
 
-        request.get(site.getModulesUrl(), (error, response, body) => {
-          if (_.isNil(error)) {
-            const $ = cheerio.load(body)
+              // get all of the rows of the table that has the grades
+              let gradeRows = $('.portal_block_Featured.Programs table.BoxContents tr')
 
-            // get all of the rows of the table that has the grades
-            let gradeRows = $('.portal_block_Featured.Programs table.BoxContents tr')
+              // filter out all rows that don't have 11 <td>'s
+              let classRows = gradeRows.has('td:nth-child(11)')
 
-            // filter out all rows that don't have 11 <td>'s
-            let classRows = gradeRows.has('td:nth-child(11)')
-
-            let classData = []
-            classRows.map((i, el) => {
-              const n = $(el)
-              const cells = n.children()
-              let period = parseInt($(cells.get(3)).text().match(/\d+/)[0])
-              let letterGrade = $(cells.get(7)).text().match(/[ABCDF]/)[0]
-              let percentGrade = $(cells.get(7)).text().match(/\d+[%]/)[0]
-              let teacher = _.trim($(cells.get(4)).text()).split(' ')
-              let c = {
-                period: period,
-                subject: _.trim($(cells.get(2)).text()).replace('M/J ', ''),
-                letterGrade: letterGrade,
-                percentGrade: percentGrade,
-                teacher: _.capitalize(teacher[teacher.length - 1])
-              }
-              classData.push(c)
-            })
-            this.sendSocketNotification('GRADES', classData);
-            // return classData
-          } else {
-            console.error('Error getting grades', error)
-          }
-        })
+              let classData = []
+              classRows.map((i, el) => {
+                const n = $(el)
+                const cells = n.children()
+                let period = parseInt($(cells.get(3)).text().match(/\d+/)[0])
+                let letterGrade = $(cells.get(7)).text().match(/[ABCDF]/)[0]
+                let percentGrade = $(cells.get(7)).text().match(/\d+[%]/)[0]
+                let teacher = _.trim($(cells.get(4)).text()).split(' ')
+                let c = {
+                  period: period,
+                  subject: _.trim($(cells.get(2)).text()).replace('M/J ', ''),
+                  letterGrade: letterGrade,
+                  percentGrade: percentGrade,
+                  teacher: _.capitalize(teacher[teacher.length - 1])
+                }
+                classData.push(c)
+              })
+              this.sendSocketNotification('GRADES', classData)
+              // return classData
+            } else {
+              this.sendSocketNotification('ERROR', error)
+            }
+          })
+        }
       }
     })
   },

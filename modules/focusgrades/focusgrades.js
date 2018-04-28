@@ -33,6 +33,13 @@ Module.register('focusgrades', {
 
 	// Override dom generator.
   getDom: function() {
+	  if (this.error) {
+	    console.log('GOT AN ERROR!!!!')
+	    const msg = document.createElement('div')
+      msg.className = 'error'
+      msg.innerHTML = this.error
+	    return msg
+    }
     const table = document.createElement('div')
     table.className = 'table'
     if (this.grades && this.grades.length > 0) {
@@ -59,10 +66,16 @@ Module.register('focusgrades', {
 
   socketNotificationReceived: function(notification, payload) {
 		if (notification === 'GRADES') {
-      console.log('Got grades')
+      console.log('Got grades', payload)
       this.grades = [...payload]
-      this.updateDom(100);
-		}
+      this.error = null
+      this.updateDom(100)
+		} else if (notification === 'ERROR') {
+      console.error('Got an error', payload)
+      this.error = payload
+      this.grades = []
+      this.updateDom(100)
+    }
 	},
 
 });
