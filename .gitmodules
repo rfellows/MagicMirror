@@ -1,0 +1,3 @@
+[submodule "modules/MMM-quote-of-the-day"]
+	path = modules/MMM-quote-of-the-day
+	url = https://github.com/Sispheor/MMM-quote-of-the-day.git

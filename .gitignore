@@ -66,6 +66,8 @@ Temporary Items
 !/modules/default/**
 !/modules/focusgrades
 !/modules/focusgrades/**
+!/modules/MMM-quote-of-the-day
+!/modules/MMM-quote-of-the-day/**
 !/modules/README.md**
 
 # Ignore changes to the custom css files.
@@ -82,3 +84,4 @@ Temporary Items
 *.bak
 
 package-lock.json
+*.idea

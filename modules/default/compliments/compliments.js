@@ -12,22 +12,24 @@ Module.register("compliments", {
 	defaults: {
 		compliments: {
 			anytime: [
-				"Hey there sexy!"
+				"Dance as if no one is watching",
+				"Aerialists Rock",
+				"You are awesome"
 			],
 			morning: [
-				"Good morning, handsome!",
-				"Enjoy your day!",
-				"How was your sleep?"
+        "Time for some pull-ups!",
+				"Good morning, beautiful!",
+				"Have a great day!"
 			],
 			afternoon: [
-				"Hello, beauty!",
-				"You look sexy!",
-				"Looking good today!"
+				"Go Cavs!",
+				"Go Browns!",
+				"Go Tribe!"
 			],
 			evening: [
-				"Wow, you look hot!",
-				"You look nice!",
-				"Hi, sexy!"
+				"Is it bedtime yet?",
+				"Is anyone looking at me?",
+				"What. A. Day."
 			]
 		},
 		updateInterval: 30000,
